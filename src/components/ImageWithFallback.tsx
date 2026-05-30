@@ -14,14 +14,18 @@ interface ImageWithFallbackProps {
 }
 
 const WIKI_PREFIX = "wiki-photo:";
+const DIRECT_PREFIX = "direct-photo:";
 const WIKI_SEPARATOR = "|||";
 
 function parseImageSource(src: string) {
-  if (!src.startsWith(WIKI_PREFIX)) {
+  const isWikiSource = src.startsWith(WIKI_PREFIX);
+  const isDirectSource = src.startsWith(DIRECT_PREFIX);
+
+  if (!isWikiSource && !isDirectSource) {
     return null;
   }
 
-  const payload = src.slice(WIKI_PREFIX.length);
+  const payload = src.slice(isWikiSource ? WIKI_PREFIX.length : DIRECT_PREFIX.length);
   const separatorIndex = payload.indexOf(WIKI_SEPARATOR);
 
   if (separatorIndex < 0) {
@@ -30,7 +34,8 @@ function parseImageSource(src: string) {
 
   return {
     fallbackSrc: payload.slice(separatorIndex + WIKI_SEPARATOR.length),
-    pageTitle: decodeURIComponent(payload.slice(0, separatorIndex)),
+    source: decodeURIComponent(payload.slice(0, separatorIndex)),
+    type: isWikiSource ? "wiki" : "direct",
   };
 }
 
@@ -85,11 +90,15 @@ export default function ImageWithFallback({ src, alt, className = "" }: ImageWit
       return;
     }
 
+    if (nextSource.type === "direct") {
+      setImageSrc(nextSource.source);
+      return;
+    }
+
     const controller = new AbortController();
     const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
-      nextSource.pageTitle,
+      nextSource.source,
     )}`;
-
     fetch(summaryUrl, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) {
