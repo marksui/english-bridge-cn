@@ -80,4 +80,4 @@ src/data/vocabulary.ts
 }
 ```
 
-图片使用公开可直接访问的 `imageUrl`，并通过 `ImageWithFallback` 在加载失败时显示默认占位图。
+图片现在使用内置 SVG 图标卡片生成 `imageUrl`，每张卡片包含对应 emoji、英文和中文，避免随机照片与单词不匹配；如果加载失败，会通过 `ImageWithFallback` 显示默认占位图。
