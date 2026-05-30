@@ -12,7 +12,7 @@ interface WordCardProps {
 export default function WordCard({ item, isFavorite, onToggleFavorite }: WordCardProps) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="aspect-[4/3] bg-slate-100">
+      <div className="h-48 w-full flex-none overflow-hidden bg-slate-100">
         <ImageWithFallback src={item.imageUrl} alt={item.word} />
       </div>
       <div className="flex flex-1 flex-col gap-4 p-4">

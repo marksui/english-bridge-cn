@@ -118,7 +118,7 @@ export default function ImageWithFallback({ src, alt, className = "" }: ImageWit
       ref={imageRef}
       src={imageSrc}
       alt={alt}
-      className={`h-full w-full object-cover ${className}`}
+      className={`block h-full w-full object-cover object-center ${className}`}
       loading="lazy"
       onError={() => setImageSrc(parsedSource?.fallbackSrc ?? PLACEHOLDER_IMAGE)}
     />

@@ -10,7 +10,7 @@ interface CategoryCardProps {
 export default function CategoryCard({ category }: CategoryCardProps) {
   return (
     <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft">
-      <div className="aspect-[4/3] bg-slate-100">
+      <div className="h-44 w-full overflow-hidden bg-slate-100 sm:h-48">
         <ImageWithFallback src={category.imageUrl} alt={category.categoryChinese} />
       </div>
       <div className="space-y-4 p-4">
