@@ -28,14 +28,6 @@ npm run preview
 
 ## GitHub Pages 部署
 
-项目已包含 GitHub Actions 自动部署工作流：
-
-```text
-.github/workflows/deploy.yml
-```
-
-每次推送到 `main` 分支时，GitHub Actions 会运行 `npm ci`、`npm run build`，并把 `dist` 发布到 `gh-pages` 分支。
-
 线上地址：
 
 ```text
@@ -54,7 +46,7 @@ base: "/english-bridge-cn/"
 base: "/daily-english-cn/"
 ```
 
-也可以手动部署到 `gh-pages` 分支：
+部署到 `gh-pages` 分支：
 
 ```bash
 npm run build
