@@ -1,20 +1,22 @@
-let activeText = "";
+let activeSpeechKey = "";
 
 export function stopEnglishSpeech() {
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
-    activeText = "";
+    activeSpeechKey = "";
   }
 }
 
-export function speakEnglish(text: string) {
+export function speakEnglish(text: string, options: { rate?: number } = {}) {
   if (!("speechSynthesis" in window)) {
     return;
   }
 
   const synth = window.speechSynthesis;
+  const rate = options.rate ?? 0.85;
+  const speechKey = `${rate}:${text}`;
 
-  if (synth.speaking && activeText === text) {
+  if (synth.speaking && activeSpeechKey === speechKey) {
     stopEnglishSpeech();
     return;
   }
@@ -23,7 +25,7 @@ export function speakEnglish(text: string) {
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "en-US";
-  utterance.rate = 0.85;
+  utterance.rate = rate;
 
   const voices = synth.getVoices();
   const englishVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith("en"));
@@ -34,12 +36,12 @@ export function speakEnglish(text: string) {
     null;
 
   utterance.onend = () => {
-    activeText = "";
+    activeSpeechKey = "";
   };
   utterance.onerror = () => {
-    activeText = "";
+    activeSpeechKey = "";
   };
 
-  activeText = text;
+  activeSpeechKey = speechKey;
   synth.speak(utterance);
 }

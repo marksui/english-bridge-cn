@@ -33,8 +33,9 @@ export default function WordCard({ item, isFavorite, onToggleFavorite }: WordCar
           <p className="mt-1 text-sm leading-6 text-slate-500">{item.exampleChinese}</p>
         </div>
 
-        <div className="mt-auto grid grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="mt-auto grid grid-cols-1 gap-2 sm:grid-cols-2">
           <AudioButton text={item.word} />
+          <AudioButton text={item.word} label="慢速" rate={0.58} tone="slow" />
           <AudioButton text={item.example} label="美式例句" compact />
           <FavoriteButton isFavorite={isFavorite} onToggle={() => onToggleFavorite(item.id)} />
         </div>
