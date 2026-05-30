@@ -34,7 +34,7 @@ npm run preview
 .github/workflows/deploy.yml
 ```
 
-每次推送到 `main` 分支时，GitHub Actions 会运行 `npm ci`、`npm run build`，并把 `dist` 发布到 GitHub Pages。
+每次推送到 `main` 分支时，GitHub Actions 会运行 `npm ci`、`npm run build`，并把 `dist` 发布到 `gh-pages` 分支。
 
 线上地址：
 
@@ -61,7 +61,7 @@ npm run build
 npm run deploy
 ```
 
-`deploy` 脚本会使用 `gh-pages -d dist` 发布构建后的 `dist` 目录。
+`deploy` 脚本会使用 `gh-pages -d dist --nojekyll` 发布构建后的 `dist` 目录。
 
 ## 编辑词汇数据
 
