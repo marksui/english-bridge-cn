@@ -770,6 +770,141 @@ const categoryTheme: Record<string, { from: string; to: string; accent: string }
   "doctor-phrases": { from: "#f0fdf4", to: "#bfdbfe", accent: "#047857" },
 };
 
+const realPhotoCategoryIds = new Set([
+  "vegetables",
+  "fruits",
+  "cars",
+  "grocery",
+  "restaurant",
+  "kitchen",
+  "furniture",
+  "clothes",
+  "body-parts",
+  "school",
+  "apartment",
+  "tools",
+  "pharmacy",
+  "bank",
+  "transportation",
+  "weather",
+]);
+
+const realPhotoPages: Record<string, string | null> = {
+  "category:vegetables": "Vegetable",
+  "category:fruits": "Fruit",
+  "category:cars": "Car",
+  "category:grocery": "Supermarket",
+  "category:restaurant": "Restaurant",
+  "category:kitchen": "Kitchen",
+  "category:furniture": "Furniture",
+  "category:clothes": "Clothing",
+  "category:body-parts": "Human body",
+  "category:school": "School",
+  "category:apartment": "Apartment",
+  "category:tools": "Tool",
+  "category:pharmacy": "Pharmacy",
+  "category:bank": "Bank",
+  "category:transportation": "Public transport",
+  "category:weather": "Weather",
+  "cars:steering wheel": "Steering wheel",
+  "cars:windshield": "Windshield",
+  "cars:mirror": "Rear-view mirror",
+  "cars:seat belt": "Seat belt",
+  "cars:trunk": "Trunk (car)",
+  "cars:hood": "Hood (car)",
+  "cars:gas pedal": "Accelerator (car)",
+  "cars:license plate": "Vehicle registration plate",
+  "cars:gas station": "Filling station",
+  "cars:parking lot": "Parking lot",
+  "cars:oil change": "Motor oil",
+  "cars:flat tire": "Flat tire",
+  "cars:tow truck": "Tow truck",
+  "grocery:cart": "Shopping cart",
+  "grocery:checkout": "Point of sale",
+  "grocery:price tag": "Price tag",
+  "grocery:discount": null,
+  "grocery:refund": null,
+  "grocery:return": null,
+  "grocery:fresh": null,
+  "grocery:frozen": "Frozen food",
+  "grocery:organic": "Organic food",
+  "grocery:dairy": "Dairy product",
+  "grocery:produce": "Produce (food)",
+  "restaurant:order": null,
+  "restaurant:bill": "Receipt",
+  "restaurant:tip": null,
+  "restaurant:takeout": "Take-out",
+  "restaurant:allergy": null,
+  "restaurant:appetizer": "Hors d'oeuvre",
+  "restaurant:entree": "Main course",
+  "kitchen:cutting board": "Cutting board",
+  "kitchen:dish soap": "Dishwashing liquid",
+  "kitchen:trash can": "Waste container",
+  "furniture:TV stand": "Entertainment center",
+  "body-parts:stomach": "Abdomen",
+  "school:assignment": null,
+  "school:homework": "Homework",
+  "school:deadline": null,
+  "school:discussion": null,
+  "school:office hour": null,
+  "school:midterm": null,
+  "school:final": null,
+  "school:grade": null,
+  "school:syllabus": null,
+  "apartment:rent": null,
+  "apartment:lease": null,
+  "apartment:deposit": null,
+  "apartment:landlord": null,
+  "apartment:tenant": null,
+  "apartment:maintenance": null,
+  "apartment:repair": null,
+  "apartment:utility bill": null,
+  "apartment:parking spot": "Parking space",
+  "apartment:laundry room": "Laundry room",
+  "apartment:air conditioner": "Air conditioning",
+  "apartment:leaking": null,
+  "apartment:broken": null,
+  "apartment:noisy": null,
+  "tools:tape measure": "Tape measure",
+  "tools:extension cord": "Extension cord",
+  "pharmacy:prescription": "Medical prescription",
+  "pharmacy:cough syrup": "Cough medicine",
+  "pharmacy:painkiller": "Analgesic",
+  "pharmacy:allergy medicine": "Antihistamine",
+  "pharmacy:over-the-counter": "Over-the-counter drug",
+  "pharmacy:insurance card": null,
+  "pharmacy:eye drops": "Eye drop",
+  "pharmacy:first aid": "First aid",
+  "bank:checking account": null,
+  "bank:savings account": null,
+  "bank:deposit": null,
+  "bank:withdraw": null,
+  "bank:transfer": null,
+  "bank:check": "Cheque",
+  "bank:debit card": "Debit card",
+  "bank:credit card": "Credit card",
+  "bank:statement": null,
+  "bank:fee": null,
+  "bank:balance": null,
+  "bank:wire transfer": "Wire transfer",
+  "bank:mobile deposit": null,
+  "transportation:trolley": "Tram",
+  "transportation:Uber": "Ridesharing company",
+  "transportation:stop": "Bus stop",
+  "transportation:fare": null,
+  "transportation:transfer": null,
+  "transportation:gate": "Airport gate",
+  "transportation:parking": "Parking",
+  "transportation:traffic": "Traffic congestion",
+  "transportation:direction": null,
+  "weather:hot": null,
+  "weather:cold": null,
+  "weather:warm": null,
+  "weather:cool": null,
+  "weather:humid": null,
+  "weather:dry": null,
+};
+
 const wordEmoji: Record<string, string> = {
   tomato: "🍅",
   potato: "🥔",
@@ -1207,11 +1342,33 @@ const fontSizeFor = (value: string, base: number) => {
   return base;
 };
 
+const titleCase = (value: string) =>
+  value
+    .split(" ")
+    .map((part) =>
+      part.length > 0 ? `${part.charAt(0).toUpperCase()}${part.slice(1)}` : part,
+    )
+    .join(" ");
+
+const photoPageFor = (categoryId: string, title: string, isCategory: boolean) => {
+  if (isCategory) {
+    return realPhotoPages[`category:${categoryId}`] ?? titleCase(title);
+  }
+
+  const key = `${categoryId}:${title.toLowerCase()}`;
+  if (Object.prototype.hasOwnProperty.call(realPhotoPages, key)) {
+    return realPhotoPages[key];
+  }
+
+  return realPhotoCategoryIds.has(categoryId) ? titleCase(title) : null;
+};
+
 const imageUrl = (
   categoryId: string,
   title: string,
   subtitle: string,
   categoryLabel: string,
+  isCategory = false,
 ) => {
   const theme = categoryTheme[categoryId] ?? {
     from: "#f8fafc",
@@ -1249,7 +1406,12 @@ const imageUrl = (
   <text x="320" y="405" text-anchor="middle" font-size="22" font-weight="700" fill="${theme.accent}" font-family="Noto Sans SC, Microsoft YaHei, Arial, sans-serif">${safeCategory}</text>
 </svg>`;
 
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  const fallbackImage = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  const photoPage = photoPageFor(categoryId, title, isCategory);
+
+  return photoPage
+    ? `wiki-photo:${encodeURIComponent(photoPage)}|||${fallbackImage}`
+    : fallbackImage;
 };
 
 const idSafe = (value: string) =>
@@ -1331,6 +1493,7 @@ export const categories: CategorySummary[] = rawCategories.map((category) => ({
     category.categoryEnglish,
     category.categoryChinese,
     `${category.categoryChinese} · ${category.categoryEnglish}`,
+    true,
   ),
   wordCount: category.words.length,
 }));

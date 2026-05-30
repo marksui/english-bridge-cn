@@ -80,4 +80,4 @@ src/data/vocabulary.ts
 }
 ```
 
-图片现在使用内置 SVG 图标卡片生成 `imageUrl`，每张卡片包含对应 emoji、英文和中文，避免随机照片与单词不匹配；如果加载失败，会通过 `ImageWithFallback` 显示默认占位图。
+实物类词汇会优先通过 Wikipedia / Wikimedia Commons 的公开缩略图显示真实图片；抽象词、短句或找不到稳定真实图时，会退回内置 SVG 图标卡片。这样避免随机照片与单词不匹配，也保证每个词都有图片。

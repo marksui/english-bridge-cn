@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const PLACEHOLDER_IMAGE = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
@@ -13,20 +13,114 @@ interface ImageWithFallbackProps {
   className?: string;
 }
 
+const WIKI_PREFIX = "wiki-photo:";
+const WIKI_SEPARATOR = "|||";
+
+function parseImageSource(src: string) {
+  if (!src.startsWith(WIKI_PREFIX)) {
+    return null;
+  }
+
+  const payload = src.slice(WIKI_PREFIX.length);
+  const separatorIndex = payload.indexOf(WIKI_SEPARATOR);
+
+  if (separatorIndex < 0) {
+    return null;
+  }
+
+  return {
+    fallbackSrc: payload.slice(separatorIndex + WIKI_SEPARATOR.length),
+    pageTitle: decodeURIComponent(payload.slice(0, separatorIndex)),
+  };
+}
+
 export default function ImageWithFallback({ src, alt, className = "" }: ImageWithFallbackProps) {
-  const [imageSrc, setImageSrc] = useState(src);
+  const parsedSource = parseImageSource(src);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const [shouldLoadPhoto, setShouldLoadPhoto] = useState(!parsedSource);
+  const [imageSrc, setImageSrc] = useState(parsedSource?.fallbackSrc ?? src);
 
   useEffect(() => {
-    setImageSrc(src);
+    const nextSource = parseImageSource(src);
+    setImageSrc(nextSource?.fallbackSrc ?? src);
+    setShouldLoadPhoto(!nextSource);
   }, [src]);
+
+  useEffect(() => {
+    const nextSource = parseImageSource(src);
+
+    if (!nextSource) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoadPhoto(true);
+      return;
+    }
+
+    const node = imageRef.current;
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadPhoto(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "260px" },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [src]);
+
+  useEffect(() => {
+    const nextSource = parseImageSource(src);
+
+    if (!nextSource || !shouldLoadPhoto) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
+      nextSource.pageTitle,
+    )}`;
+
+    fetch(summaryUrl, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Wikipedia image lookup failed: ${response.status}`);
+        }
+        return response.json() as Promise<{
+          originalimage?: { source?: string };
+          thumbnail?: { source?: string };
+        }>;
+      })
+      .then((data) => {
+        const photoUrl = data.thumbnail?.source ?? data.originalimage?.source;
+        setImageSrc(photoUrl ?? nextSource.fallbackSrc);
+      })
+      .catch((error: Error) => {
+        if (error.name !== "AbortError") {
+          setImageSrc(nextSource.fallbackSrc);
+        }
+      });
+
+    return () => controller.abort();
+  }, [shouldLoadPhoto, src]);
 
   return (
     <img
+      ref={imageRef}
       src={imageSrc}
       alt={alt}
       className={`h-full w-full object-cover ${className}`}
       loading="lazy"
-      onError={() => setImageSrc(PLACEHOLDER_IMAGE)}
+      onError={() => setImageSrc(parsedSource?.fallbackSrc ?? PLACEHOLDER_IMAGE)}
     />
   );
 }
