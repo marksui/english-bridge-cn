@@ -10,7 +10,28 @@ const readLiteral = (node) => {
   if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
   if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
   if (node.kind === ts.SyntaxKind.NullKeyword) return null;
-  if (ts.isArrayLiteralExpression(node)) return node.elements.map(readLiteral);
+  if (ts.isIdentifier(node)) return declarations[node.text];
+  if (
+    ts.isCallExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === "major"
+  ) {
+    const [word, chinese, hint] = node.arguments.map(readLiteral);
+    return hint ? { word, chinese, hint } : { word, chinese };
+  }
+  if (ts.isArrayLiteralExpression(node)) {
+    const values = [];
+    for (const element of node.elements) {
+      if (ts.isSpreadElement(element)) {
+        const spreadValue = readLiteral(element.expression);
+        if (Array.isArray(spreadValue)) values.push(...spreadValue);
+        else values.push(spreadValue);
+      } else {
+        values.push(readLiteral(element));
+      }
+    }
+    return values;
+  }
   if (ts.isObjectLiteralExpression(node)) {
     const value = {};
     for (const property of node.properties) {
@@ -69,10 +90,13 @@ for (const category of rawCategories) {
     const wikiPage = wikiPageWordImages[category.id]?.[key];
     const directUrl = directUrlWordImages[category.id]?.[key];
     const fallbackWords = (fallbackOnlyWordImages[category.id] ?? []).map(normalize);
+    const categoryFallbackOnly = categoryImageSources[category.id]?.mode === "fallbackOnly";
 
     if (wikiPage) sources.push("wikiPage");
     if (directUrl) sources.push("directUrl");
-    if (fallbackWords.includes(key)) sources.push("fallbackOnly");
+    if (fallbackWords.includes(key) || (categoryFallbackOnly && !wikiPage && !directUrl)) {
+      sources.push("fallbackOnly");
+    }
 
     if (sources.length !== 1) {
       errors.push(`Expected exactly one image source for ${category.id}:${word.word}, found ${sources.length}.`);
@@ -96,6 +120,7 @@ const sourceFor = (categoryId, word) => {
   if (wikiPageWordImages[categoryId]?.[key]) return ["wikiPage", wikiPageWordImages[categoryId][key]];
   if (directUrlWordImages[categoryId]?.[key]) return ["directUrl", directUrlWordImages[categoryId][key]];
   if ((fallbackOnlyWordImages[categoryId] ?? []).map(normalize).includes(key)) return ["fallbackOnly", ""];
+  if (categoryImageSources[categoryId]?.mode === "fallbackOnly") return ["fallbackOnly", ""];
   return ["missing", ""];
 };
 
@@ -115,6 +140,12 @@ const requiredSamples = [
   ["life-science-concepts", "clinical trial", "fallbackOnly", ""],
   ["econ-business-concepts", "opportunity cost", "fallbackOnly", ""],
   ["social-humanities-concepts", "qualitative research", "fallbackOnly", ""],
+  ["ucsd-computing-math-physical", "Artificial Intelligence", "fallbackOnly", ""],
+  ["ucsd-engineering-majors", "Bioengineering (Bioinformatics)", "fallbackOnly", ""],
+  ["ucsd-life-health-environment", "Public Health with Concentration in Epidemiology", "fallbackOnly", ""],
+  ["ucsd-social-policy-business", "Political Science/Data Analytics", "fallbackOnly", ""],
+  ["ucsd-humanities-arts-language", "International Studies - International Business (Jt BA/MIA)", "fallbackOnly", ""],
+  ["ucsd-major-options", "Undeclared - Physical Sciences", "fallbackOnly", ""],
 ];
 
 for (const [categoryId, word, expectedMode, expectedValue] of requiredSamples) {
