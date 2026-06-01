@@ -42,13 +42,12 @@ const major = (word: string, chinese: string, hint?: string): RawWord => ({
   ...(hint ? { hint } : {}),
 });
 
-// Checked against the official UC San Diego undergraduate majors page, last updated 2026-04-22.
-const ucsdMajorCategories: RawCategory[] = [
+const collegeMajorCategories: RawCategory[] = [
   {
-    id: "ucsd-computing-math-physical",
-    categoryChinese: "UCSD数理计算专业",
-    categoryEnglish: "UCSD Computing, Math and Physical Science Majors",
-    imageQuery: "uc san diego computing math physical science majors",
+    id: "college-computing-math-physical",
+    categoryChinese: "大学数理计算专业",
+    categoryEnglish: "College Computing, Math and Physical Science Majors",
+    imageQuery: "college computing math physical science majors",
     words: [
       major("Astronomy & Astrophysics", "天文学与天体物理学"),
       major("Astrophysical Sciences", "天体物理科学"),
@@ -82,10 +81,10 @@ const ucsdMajorCategories: RawCategory[] = [
     ],
   },
   {
-    id: "ucsd-engineering-majors",
-    categoryChinese: "UCSD工程专业",
-    categoryEnglish: "UCSD Engineering Majors",
-    imageQuery: "uc san diego engineering majors",
+    id: "college-engineering-majors",
+    categoryChinese: "大学工程专业",
+    categoryEnglish: "College Engineering Majors",
+    imageQuery: "college engineering majors",
     words: [
       major("Bioengineering", "生物工程"),
       major("Bioengineering (Biotechnology)", "生物工程（生物技术方向）"),
@@ -130,10 +129,10 @@ const ucsdMajorCategories: RawCategory[] = [
     ],
   },
   {
-    id: "ucsd-life-health-environment",
-    categoryChinese: "UCSD生命健康环境专业",
-    categoryEnglish: "UCSD Life, Health and Environment Majors",
-    imageQuery: "uc san diego life health environment majors",
+    id: "college-life-health-environment",
+    categoryChinese: "大学生命健康环境专业",
+    categoryEnglish: "College Life, Health and Environment Majors",
+    imageQuery: "college life health environment majors",
     words: [
       major("Biochemistry", "生物化学"),
       major("Biology with Specialization in Bioinformatics", "生物学（生物信息学方向）"),
@@ -167,10 +166,10 @@ const ucsdMajorCategories: RawCategory[] = [
     ],
   },
   {
-    id: "ucsd-social-policy-business",
-    categoryChinese: "UCSD社科政策商科专业",
-    categoryEnglish: "UCSD Social Science, Policy and Business Majors",
-    imageQuery: "uc san diego social science policy business majors",
+    id: "college-social-policy-business",
+    categoryChinese: "大学社科政策商科专业",
+    categoryEnglish: "College Social Science, Policy and Business Majors",
+    imageQuery: "college social science policy business majors",
     words: [
       major("Anthropology (Archaeology)", "人类学（考古学方向）"),
       major("Anthropology (Biological Anthropology)", "人类学（生物人类学方向）"),
@@ -215,10 +214,10 @@ const ucsdMajorCategories: RawCategory[] = [
     ],
   },
   {
-    id: "ucsd-humanities-arts-language",
-    categoryChinese: "UCSD人文艺术语言专业",
-    categoryEnglish: "UCSD Humanities, Arts, Language and Communication Majors",
-    imageQuery: "uc san diego humanities arts language communication majors",
+    id: "college-humanities-arts-language",
+    categoryChinese: "大学人文艺术语言专业",
+    categoryEnglish: "College Humanities, Arts, Language and Communication Majors",
+    imageQuery: "college humanities arts language communication majors",
     words: [
       major("Black Diaspora and African American Studies", "黑人离散与非裔美国研究"),
       major("Chicanx and Latinx Studies", "奇卡诺/拉丁裔研究"),
@@ -276,10 +275,10 @@ const ucsdMajorCategories: RawCategory[] = [
     ],
   },
   {
-    id: "ucsd-major-options",
-    categoryChinese: "UCSD专业申报选项",
-    categoryEnglish: "UCSD Major Options and Advising Terms",
-    imageQuery: "uc san diego major declaration advising terms",
+    id: "college-major-options",
+    categoryChinese: "大学专业申报选项",
+    categoryEnglish: "College Major Options and Advising Terms",
+    imageQuery: "college major declaration advising terms",
     words: [
       major("Undeclared", "未定专业"),
       major("Undeclared - Humanities/Arts", "未定专业-人文/艺术"),
@@ -1572,7 +1571,7 @@ const rawCategories: RawCategory[] = [
       { word: "aesthetics", chinese: "美学", hint: "es-THET-iks" },
     ],
   },
-  ...ucsdMajorCategories,
+  ...collegeMajorCategories,
 ];
 
 const categoryEmoji: Record<string, string> = {
@@ -1614,12 +1613,12 @@ const categoryEmoji: Record<string, string> = {
   "life-science-concepts": "🧬",
   "econ-business-concepts": "📈",
   "social-humanities-concepts": "🏛️",
-  "ucsd-computing-math-physical": "📐",
-  "ucsd-engineering-majors": "⚙️",
-  "ucsd-life-health-environment": "🧬",
-  "ucsd-social-policy-business": "🏛️",
-  "ucsd-humanities-arts-language": "🎭",
-  "ucsd-major-options": "🎓",
+  "college-computing-math-physical": "📐",
+  "college-engineering-majors": "⚙️",
+  "college-life-health-environment": "🧬",
+  "college-social-policy-business": "🏛️",
+  "college-humanities-arts-language": "🎭",
+  "college-major-options": "🎓",
 };
 
 const categoryTheme: Record<string, { from: string; to: string; accent: string }> = {
@@ -1661,12 +1660,12 @@ const categoryTheme: Record<string, { from: string; to: string; accent: string }
   "life-science-concepts": { from: "#f0fdf4", to: "#bbf7d0", accent: "#047857" },
   "econ-business-concepts": { from: "#fefce8", to: "#fde68a", accent: "#a16207" },
   "social-humanities-concepts": { from: "#faf5ff", to: "#c7d2fe", accent: "#6d28d9" },
-  "ucsd-computing-math-physical": { from: "#eff6ff", to: "#dbeafe", accent: "#1d4ed8" },
-  "ucsd-engineering-majors": { from: "#f4f4f5", to: "#bae6fd", accent: "#475569" },
-  "ucsd-life-health-environment": { from: "#ecfdf5", to: "#a7f3d0", accent: "#047857" },
-  "ucsd-social-policy-business": { from: "#fff7ed", to: "#fde68a", accent: "#b45309" },
-  "ucsd-humanities-arts-language": { from: "#fdf2f8", to: "#ddd6fe", accent: "#be185d" },
-  "ucsd-major-options": { from: "#f8fafc", to: "#c7d2fe", accent: "#334155" },
+  "college-computing-math-physical": { from: "#eff6ff", to: "#dbeafe", accent: "#1d4ed8" },
+  "college-engineering-majors": { from: "#f4f4f5", to: "#bae6fd", accent: "#475569" },
+  "college-life-health-environment": { from: "#ecfdf5", to: "#a7f3d0", accent: "#047857" },
+  "college-social-policy-business": { from: "#fff7ed", to: "#fde68a", accent: "#b45309" },
+  "college-humanities-arts-language": { from: "#fdf2f8", to: "#ddd6fe", accent: "#be185d" },
+  "college-major-options": { from: "#f8fafc", to: "#c7d2fe", accent: "#334155" },
 };
 
 type ImageSourceConfig =
@@ -1713,12 +1712,12 @@ const categoryImageSources: Record<string, ImageSourceConfig> = {
   "life-science-concepts": { mode: "fallbackOnly" },
   "econ-business-concepts": { mode: "fallbackOnly" },
   "social-humanities-concepts": { mode: "fallbackOnly" },
-  "ucsd-computing-math-physical": { mode: "fallbackOnly" },
-  "ucsd-engineering-majors": { mode: "fallbackOnly" },
-  "ucsd-life-health-environment": { mode: "fallbackOnly" },
-  "ucsd-social-policy-business": { mode: "fallbackOnly" },
-  "ucsd-humanities-arts-language": { mode: "fallbackOnly" },
-  "ucsd-major-options": { mode: "fallbackOnly" },
+  "college-computing-math-physical": { mode: "fallbackOnly" },
+  "college-engineering-majors": { mode: "fallbackOnly" },
+  "college-life-health-environment": { mode: "fallbackOnly" },
+  "college-social-policy-business": { mode: "fallbackOnly" },
+  "college-humanities-arts-language": { mode: "fallbackOnly" },
+  "college-major-options": { mode: "fallbackOnly" },
 };
 
 const wikiPageWordImages: Record<string, Record<string, string>> = {
@@ -3494,10 +3493,10 @@ const buildExample = (category: RawCategory, item: RawWord) => {
     }
   }
 
-  if (category.id.startsWith("ucsd-")) {
+  if (category.id.startsWith("college-")) {
     return {
-      example: `I am considering ${item.word} as my major at UC San Diego.`,
-      exampleChinese: `我正在考虑在 UCSD 选择${item.chinese}这个专业。`,
+      example: `I am considering ${item.word} as my major at a U.S. university.`,
+      exampleChinese: `我正在考虑在美国大学选择${item.chinese}这个专业。`,
     };
   }
 

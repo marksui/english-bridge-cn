@@ -140,12 +140,12 @@ const requiredSamples = [
   ["life-science-concepts", "clinical trial", "fallbackOnly", ""],
   ["econ-business-concepts", "opportunity cost", "fallbackOnly", ""],
   ["social-humanities-concepts", "qualitative research", "fallbackOnly", ""],
-  ["ucsd-computing-math-physical", "Artificial Intelligence", "fallbackOnly", ""],
-  ["ucsd-engineering-majors", "Bioengineering (Bioinformatics)", "fallbackOnly", ""],
-  ["ucsd-life-health-environment", "Public Health with Concentration in Epidemiology", "fallbackOnly", ""],
-  ["ucsd-social-policy-business", "Political Science/Data Analytics", "fallbackOnly", ""],
-  ["ucsd-humanities-arts-language", "International Studies - International Business (Jt BA/MIA)", "fallbackOnly", ""],
-  ["ucsd-major-options", "Undeclared - Physical Sciences", "fallbackOnly", ""],
+  ["college-computing-math-physical", "Artificial Intelligence", "fallbackOnly", ""],
+  ["college-engineering-majors", "Bioengineering (Bioinformatics)", "fallbackOnly", ""],
+  ["college-life-health-environment", "Public Health with Concentration in Epidemiology", "fallbackOnly", ""],
+  ["college-social-policy-business", "Political Science/Data Analytics", "fallbackOnly", ""],
+  ["college-humanities-arts-language", "International Studies - International Business (Jt BA/MIA)", "fallbackOnly", ""],
+  ["college-major-options", "Undeclared - Physical Sciences", "fallbackOnly", ""],
 ];
 
 for (const [categoryId, word, expectedMode, expectedValue] of requiredSamples) {
