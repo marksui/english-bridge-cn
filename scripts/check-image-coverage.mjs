@@ -105,6 +105,9 @@ const requiredSamples = [
   ["emotions", "depressed", "fallbackOnly", ""],
   ["body-pain", "stomachache", "fallbackOnly", ""],
   ["pharmacy", "pharmacy", "wikiPage", "Pharmacy"],
+  ["university-subjects", "computer science", "fallbackOnly", ""],
+  ["academic-basics", "framework", "fallbackOnly", ""],
+  ["research-coursework", "academic integrity", "fallbackOnly", ""],
 ];
 
 for (const [categoryId, word, expectedMode, expectedValue] of requiredSamples) {
