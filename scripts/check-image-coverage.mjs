@@ -108,6 +108,13 @@ const requiredSamples = [
   ["university-subjects", "computer science", "fallbackOnly", ""],
   ["academic-basics", "framework", "fallbackOnly", ""],
   ["research-coursework", "academic integrity", "fallbackOnly", ""],
+  ["math-concepts", "ordinary differential equation", "fallbackOnly", ""],
+  ["math-concepts", "topology", "fallbackOnly", ""],
+  ["cs-concepts", "algorithm", "fallbackOnly", ""],
+  ["physics-engineering-concepts", "thermodynamics", "fallbackOnly", ""],
+  ["life-science-concepts", "clinical trial", "fallbackOnly", ""],
+  ["econ-business-concepts", "opportunity cost", "fallbackOnly", ""],
+  ["social-humanities-concepts", "qualitative research", "fallbackOnly", ""],
 ];
 
 for (const [categoryId, word, expectedMode, expectedValue] of requiredSamples) {
