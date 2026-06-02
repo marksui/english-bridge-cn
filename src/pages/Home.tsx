@@ -9,13 +9,13 @@ export default function Home() {
       <section className="grid gap-6 pb-8 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="max-w-3xl">
           <p className="mb-3 inline-flex rounded-md bg-emerald-50 px-3 py-1 text-sm font-bold text-leaf">
-            美式英语 · {categories.length} 个分类 · {totalWordCount} 个单词和短语
+            我的美式英语 · {categories.length} 个分类 · {totalWordCount} 个单词和短语
           </p>
           <h1 className="text-4xl font-black tracking-normal text-ink sm:text-5xl">
-            日常英文单词表
+            我的英文词库
           </h1>
           <p className="mt-4 text-lg leading-8 text-slate-600">
-            用图片和发音学习生活中的英文单词
+            生活、健康、课堂和大学专业里真正会遇到的词
           </p>
         </div>
         <div className="flex flex-wrap gap-3">

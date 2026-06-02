@@ -19,20 +19,20 @@ export default function Navbar({ favoriteCount }: NavbarProps) {
           className="inline-flex min-h-11 items-center gap-2 rounded-md text-lg font-black text-ink focus:outline-none focus:ring-2 focus:ring-skyline focus:ring-offset-2"
         >
           <BookOpen aria-hidden="true" className="h-6 w-6 text-leaf" />
-          日常英文单词表
+          我的英文词库
         </Link>
         <div className="flex flex-wrap items-center gap-2">
           <NavLink to="/" className={linkClass} end>
             <Home aria-hidden="true" className="h-4 w-4" />
-            首页
+            分类
           </NavLink>
           <NavLink to="/words" className={linkClass}>
             <BookOpen aria-hidden="true" className="h-4 w-4" />
-            全部单词
+            词库
           </NavLink>
           <NavLink to="/favorites" className={linkClass}>
             <Heart aria-hidden="true" className="h-4 w-4" />
-            收藏
+            我的收藏
             <span className="rounded-md bg-white/80 px-1.5 py-0.5 text-xs text-ink">
               {favoriteCount}
             </span>
