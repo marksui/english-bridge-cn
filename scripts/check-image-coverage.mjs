@@ -154,6 +154,14 @@ const requiredSamples = [
   ["phrasal-verbs-daily", "figure out", "fallbackOnly", ""],
   ["campus-services", "degree audit", "fallbackOnly", ""],
   ["news-policy-advanced", "executive order", "fallbackOnly", ""],
+  ["housing-conflict", "security deposit", "fallbackOnly", ""],
+  ["money-taxes", "tax return", "fallbackOnly", ""],
+  ["academic-presentations", "Q&A session", "fallbackOnly", ""],
+  ["data-ai-literacy", "hallucination", "fallbackOnly", ""],
+  ["formal-email-phrases", "Could you please clarify...", "fallbackOnly", ""],
+  ["daily-idioms-natural", "That makes sense.", "fallbackOnly", ""],
+  ["cooking-food-advanced", "simmer", "fallbackOnly", ""],
+  ["travel-logistics", "boarding pass", "fallbackOnly", ""],
 ];
 
 for (const [categoryId, word, expectedMode, expectedValue] of requiredSamples) {
