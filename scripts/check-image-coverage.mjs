@@ -14,7 +14,7 @@ const readLiteral = (node) => {
   if (
     ts.isCallExpression(node) &&
     ts.isIdentifier(node.expression) &&
-    node.expression.text === "major"
+    ["major", "term"].includes(node.expression.text)
   ) {
     const [word, chinese, hint] = node.arguments.map(readLiteral);
     return hint ? { word, chinese, hint } : { word, chinese };
@@ -146,6 +146,14 @@ const requiredSamples = [
   ["college-social-policy-business", "Political Science/Data Analytics", "fallbackOnly", ""],
   ["college-humanities-arts-language", "International Studies - International Business (Jt BA/MIA)", "fallbackOnly", ""],
   ["college-major-options", "Undeclared - Physical Sciences", "fallbackOnly", ""],
+  ["insurance-billing", "deductible", "fallbackOnly", ""],
+  ["documents-immigration", "work authorization", "fallbackOnly", ""],
+  ["job-search-interview", "behavioral question", "fallbackOnly", ""],
+  ["mental-health-therapy", "panic attack", "fallbackOnly", ""],
+  ["academic-writing-advanced", "statistical significance", "fallbackOnly", ""],
+  ["phrasal-verbs-daily", "figure out", "fallbackOnly", ""],
+  ["campus-services", "degree audit", "fallbackOnly", ""],
+  ["news-policy-advanced", "executive order", "fallbackOnly", ""],
 ];
 
 for (const [categoryId, word, expectedMode, expectedValue] of requiredSamples) {
